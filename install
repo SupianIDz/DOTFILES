@@ -47,6 +47,14 @@ git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$H
 
 autoload -U compinit && compinit
 
+echo "INSTALL JAVA"
+brew install java
+if [ -d "/Library/Java/JavaVirtualMachines/openjdk.jdk" ]; then
+    sudo rm -rf /Library/Java/JavaVirtualMachines/openjdk.jdk
+fi
+
+sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+
 echo "INSTALL PHP"
 echo "-----------"
 brew tap shivammathur/php

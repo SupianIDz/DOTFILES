@@ -1,3 +1,6 @@
+# JDK
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
 # ANDROID
 export ANDROID_HOME=$HOME/Library/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator

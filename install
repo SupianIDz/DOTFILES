@@ -1,0 +1,126 @@
+#!/bin/zsh
+
+function banner() {
+  clear
+  echo "  ___       _                    ___ ____   "
+  echo " / _ \  ___| |_ ___  _ __  _   _|_ _|  _ \  "
+  echo "| | | |/ __| __/ _ \| '_ \| | | || || | | | "
+  echo "| |_| | (__| || (_) | |_) | |_| || || |_| | "
+  echo " \___/ \___|\__\___/| .__/ \__, |___|____/  "
+  echo "                    |_|    |___/            "
+}
+
+banner
+sudo -v
+banner
+
+# HIDE "LAST LOGIN"
+touch "$HOME"/.hushlogin
+
+echo "INSTALL HOMEBREW"
+echo "----------------"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME"/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+echo "INSTALL ZSH & PLUGINS"
+echo "---------------------"
+if [ -d "$HOME"/.oh-my-zsh ]; then
+  rm -rf "$HOME"/.oh-my-zsh
+fi
+
+curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+# INSTALL POWERLEVEL10K THEME
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME"/.oh-my-zsh/themes/powerlevel10k
+
+# INSTALL ZSH PLUGINS
+rm -rf "$HOME"/.oh-my-zsh/plugins/zsh-completions
+git clone --depth=1 https://github.com/zsh-users/zsh-completions "$HOME"/.oh-my-zsh/plugins/zsh-completions
+
+rm -rf "$HOME"/.oh-my-zsh/plugins/zsh-autosuggestions
+git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$HOME"/.oh-my-zsh/plugins/zsh-autosuggestions
+
+rm -rf "$HOME"/.oh-my-zsh/plugins/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME"/.oh-my-zsh/plugins/zsh-syntax-highlighting
+
+autoload -U compinit && compinit
+
+echo "INSTALL PHP"
+echo "-----------"
+brew tap shivammathur/php
+brew install shivammathur/php/php@7.4
+brew install shivammathur/php/php@8.0
+brew install shivammathur/php/php@8.1
+
+echo "INSTALL COMPOSER"
+echo "----------------"
+if [ -f "/usr/local/bin/composer" ]; then
+    /usr/local/bin/composer self-update
+else
+  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  php composer-setup.php
+  php -r "unlink('composer-setup.php');"
+  chmod a+x composer.phar
+  [[ -d /usr/local/bin ]] || mkdir /usr/local/bin
+  sudo mv composer.phar /usr/local/bin/composer
+fi
+
+echo "INSTALL LARAVEL INSTALLER"
+echo "-------------------------"
+composer global require laravel/installer
+
+echo "INSTALL LARAVEL VALET"
+echo  "--------------------"
+composer global require laravel/valet
+valet install
+
+echo "INSTALL MYSQL"
+echo "-------------"
+brew install mysql
+brew services start mysql
+
+echo "INSTALL NODE"
+echo "--------------"
+brew install node
+
+echo "INSTALL YARN"
+echo "--------------"
+brew install yarn
+
+echo "INSTALL WGET"
+echo "------------"
+brew install wget
+
+echo 'INSTALL HTTPIE'
+echo "--------------"
+brew install httpie
+
+echo "INSTALL NCDU"
+echo "------------"
+brew install ncdu
+
+echo "INSTALL HUB"
+echo "-----------"
+brew install hub
+
+echo "Install ACK"
+echo "-----------"
+brew install ack
+
+echo "INSTALL COLORLS"
+echo "---------------"
+sudo gem install colorls
+
+echo "INSTALL NERD FONTS"
+echo "------------------"
+brew tap homebrew/cask-fonts
+brew install --cask font-hack-nerd-font
+
+# SYMLINK .zshrc FILES
+mv "$HOME"/.zshrc "$HOME"/.zshrc.original
+ln -s "$HOME"/.dotfiles/shell/.zshrc "$HOME"/.zshrc
+source "$HOME"/.zshrc
+
+clear

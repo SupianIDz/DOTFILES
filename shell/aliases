@@ -1,0 +1,11 @@
+# PHP
+alias phpunit="vendor/bin/phpunit"
+alias pest="vendor/bin/pest"
+
+# LARAVEL
+alias artisan="php artisan"
+alias artisan:test="php artisan test --pest"
+
+# COMMON
+alias lsl="colorls -lA --sd --light"
+alias lsd="colorls -lA --sd --dark"

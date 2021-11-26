@@ -32,9 +32,14 @@ archive () {
    zip -r "$1".zip -i "$1" ;
 }
 
+# PHP Switcher
+function phpv() {
+    brew unlink php
+    brew link --overwrite --force "php@$1"
+}
+
 # LARAVEL
-function tinker()
-{
+function tinker() {
   if [ -z "$1" ]
     then
        php artisan tinker

@@ -1,4 +1,17 @@
 # PHP
+
+if [[ -f "/opt/homebrew/opt/php@7.4/bin/php" ]]; then
+    alias php74="/opt/homebrew/opt/php@7.4/bin/php"
+fi
+
+if [[ -f "/opt/homebrew/opt/php@8.0/bin/php" ]]; then
+    alias php80="/opt/homebrew/opt/php@8.0/bin/php"
+fi
+
+if [[ -f "/opt/homebrew/opt/php@8.1/bin/php" ]]; then
+    alias php81="/opt/homebrew/opt/php@8.1/bin/php"
+fi
+
 alias phpunit="vendor/bin/phpunit"
 alias pest="vendor/bin/pest"
 
